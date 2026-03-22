@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Demo with Animation</title>
+    <style>
+        @keyframes translateAndDisappear {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+        .new_bird {
+            animation: translateAndDisappear 3s forwards;
+            animation-delay: 3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>SVG Demo with Animation</h1>
+    <svg width="800" height="600">
+        <g id="new_bird" class="new_bird">
+            <!-- Inline SVG content goes here, extracted from svg_demo-01-01.svg -->
+            <circle cx="50" cy="50" r="20" fill="red" />
+            <!-- Add other SVG elements as needed -->
+        </g>
+    </svg>
+</body>
+</html>
