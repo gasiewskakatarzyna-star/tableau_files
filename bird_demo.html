@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Tableau Dashboard</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 1000px;
+            height: 700px;
+            overflow: hidden;
+            background-color: #ffffff;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 1000px;
+            height: 700px;
+            position: relative;
+        }
+
+        /* Animation: Fly out to the top right */
+        @keyframes flyOut {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(600px, -400px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        #bird-graphic {
+            /* 3s delay, 2s duration, stays at end state */
+            animation: flyOut 2s ease-in forwards;
+            animation-delay: 3s;
+            transform-origin: center;
+        }
+
+        svg {
+            display: block;
+            width: 1000px;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1000" height="80" fill="#1A4BFF" />
+        <text x="40" y="55" fill="white" style="font-size: 40px; font-weight: lighter; letter-spacing: 2px;">
+            MY <tspan font-weight="bold">DASHBOARD</tspan> EXAMPLE
+        </text>
+
+        <text x="40" y="130" fill="#333" style="font-size: 24px; font-weight: bold; text-transform: uppercase;">What is Lorem Ipsum?</text>
+        <line x1="40" y1="150" x2="960" y2="150" stroke="#CBD5E1" stroke-width="1" />
+        
+        <foreignObject x="40" y="170" width="450" height="400">
+            <p xmlns="http://www.w3.org/1999/xhtml" style="color: #94A3B8; font-size: 18px; line-height: 1.4; font-weight: 300;">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </p>
+        </foreignObject>
+
+        <rect x="40" y="450" width="200" height="60" rx="30" fill="black" />
+        <text x="140" y="488" fill="white" text-anchor="middle" style="font-size: 18px; letter-spacing: 2px;">OPTION 1</text>
+
+        <rect x="250" y="450" width="200" height="60" rx="30" fill="none" stroke="#333" />
+        <text x="350" y="488" fill="#333" text-anchor="middle" style="font-size: 18px; letter-spacing: 2px;">OPTION 2</text>
+
+        <g opacity="0.4" fill="#64748B">
+            <polygon points="900,700 1000,700 1000,600" />
+            <polygon points="850,650 900,700 800,700" opacity="0.5"/>
+            <polygon points="950,550 1000,600 1000,500" opacity="0.3"/>
+        </g>
+
+        <g id="bird-graphic">
+            <path d="M570,350 C570,300 650,250 750,220 C730,280 780,350 820,420 C780,450 720,550 720,550 L680,500 C650,530 630,550 630,550 L660,450 C620,430 570,400 570,350 Z" fill="url(#bird-grad)" />
+            <defs>
+                <linearGradient id="bird-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FF8A00" />
+                    <stop offset="50%" style="stop-color:#DA1B60" />
+                    <stop offset="100%" style="stop-color:#00B0FF" />
+                </linearGradient>
+            </defs>
+        </g>
+    </svg>
+</div>
+
+</body>
+</html>
