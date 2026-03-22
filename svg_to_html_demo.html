@@ -16,23 +16,15 @@
 	.st3{fill:#FCFCFC;stroke:#231F20;stroke-miterlimit:10;}
 	.st4{fill:#15CCB6;}
 @keyframes birdFly {
-            0% {
-                transform: translate(0px, 0px) scaleX(1);
-            }
-            25% {
-                transform: translate(50px, -30px) scaleX(1);
-            }
-            50% {
-                transform: translate(100px, 0px) scaleX(1);
-            }
-            75% {
-                transform: translate(50px, 30px) scaleX(1);
-            }
-            100% {
-                transform: translate(0px, 0px) scaleX(1);
-            }
+  0% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(400px);
+    opacity: 0;
+  }
 }
-
 #new_x5F_bird {
   animation: birdFly 3s ease-in-out forwards;
   animation-delay: 3s;
