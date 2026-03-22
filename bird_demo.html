@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau Dashboard SVG</title>
+    <title>Tableau Dashboard Exact</title>
     <style>
         body, html {
             margin: 0;
@@ -11,31 +11,27 @@
             width: 1000px;
             height: 700px;
             overflow: hidden;
-            background-color: #ffffff;
+            background-color: white;
         }
 
-        .container {
-            width: 1000px;
-            height: 700px;
-            position: relative;
-        }
-
-        /* Animation: Smoothly glides out to the right and disappears */
+        /* This ensures the bird leaves the 1000x700 area completely */
         @keyframes flyAway {
             0% {
                 transform: translate(0, 0);
                 opacity: 1;
             }
             100% {
-                transform: translate(500px, -200px);
+                transform: translate(1100px, -400px); /* Moves it past the right edge */
                 opacity: 0;
             }
         }
 
-        /* Target the specific group from your file */
+        /* We target the specific group ID from your actual file */
         #new_bird {
             animation: flyAway 2s ease-in forwards;
-            animation-delay: 3s; /* Initial 3 second pause */
+            animation-delay: 3s;
+            transform-box: fill-box;
+            transform-origin: center;
         }
 
         svg {
@@ -47,39 +43,8 @@
 </head>
 <body>
 
-<div class="container">
-    <svg viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="1000" height="120" fill="#1A4BFF" />
-        <text x="40" y="75" fill="white" style="font-family: sans-serif; font-size: 48px; font-weight: 200; letter-spacing: 2px;">
-            MY <tspan font-weight="bold">DASHBOARD</tspan> EXAMPLE
-        </text>
-
-        <text x="40" y="180" fill="black" style="font-family: sans-serif; font-size: 24px; font-weight: 600; text-transform: uppercase;">What is Lorem Ipsum?</text>
-        <line x1="40" y1="210" x2="960" y2="210" stroke="#E2E8F0" stroke-width="1" />
-        
-        <foreignObject x="40" y="240" width="450" height="300">
-            <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: sans-serif; color: #94A3B8; font-size: 18px; line-height: 1.5; font-weight: 300;">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-            </div>
-        </foreignObject>
-
-        <rect x="40" y="550" width="200" height="70" rx="35" fill="black" />
-        <text x="140" y="592" fill="white" text-anchor="middle" style="font-family: sans-serif; font-size: 18px;">OPTION 1</text>
-
-        <rect x="250" y="550" width="200" height="70" rx="35" stroke="black" stroke-width="1" fill="none" />
-        <text x="350" y="592" fill="black" text-anchor="middle" style="font-family: sans-serif; font-size: 18px;">OPTION 2</text>
-
-        <g id="new_bird">
-            <path d="M580 430 C580 430 650 480 750 480 C850 480 900 400 900 380 C850 380 800 340 780 290 C760 340 700 360 680 340 C660 380 610 370 580 430 Z" fill="#2ED3B7" />
-            <path d="M680 340 C680 340 720 380 780 380 C740 400 700 400 680 340 Z" fill="#2ED3B7" opacity="0.8" />
-        </g>
-
-        <g opacity="0.1">
-            <path d="M1000 700L800 700L900 600Z" fill="black" />
-            <path d="M900 600L1000 600L1000 500Z" fill="black" />
-        </g>
-    </svg>
-</div>
+    <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+        </svg>
 
 </body>
 </html>
