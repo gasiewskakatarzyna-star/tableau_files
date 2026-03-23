@@ -10,24 +10,22 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1000 700" style="enable-background:new 0 0 1000 700;" xml:space="preserve">
 <style type="text/css">
-@keyframes birdFly {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(400px);
-    opacity: 0;
-  }
+#bird {
+    /* Name of the keyframes, duration, timing function, and delay */
+    animation: flyOff 2s ease-in forwards;
+    animation-delay: 3s; 
 }
 
-#bird {
-  /* This ensures the movement is calculated correctly within the SVG */
-  transform-box: fill-box;
-  transform-origin: center;
-  
-  animation: birdFly 3s ease-in-out forwards;
-  animation-delay: 3s;
+@keyframes flyOff {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        /* Adjust 100vw to ensure it clears the screen width */
+        transform: translateX(100vw);
+        opacity: 0;
+    }
 }
 	.st0{fill:url(#header_00000157991966475967097790000009315856116937732798_);}
 	.st1{fill:none;stroke:#003780;stroke-miterlimit:10;}
