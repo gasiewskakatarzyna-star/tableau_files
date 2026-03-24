@@ -6,25 +6,25 @@
       margin: 0px;
     }
 
-    @keyframes birdFly {
-      0% {
-        transform: translateX(0);
-        opacity: 1;
-      }
+#bird {
+  /* Initial state */
+  opacity: 1;
+  
+  /* Animation shorthand: name, duration, timing-function, delay, fill-mode */
+  animation: flyAway 2s ease-in 1s forwards;
+}
 
-      100% {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-    }
-
-    #bird {
-      transform-box: fill-box;
-      transform-origin: center;
-
-      animation: birdFly 3s ease-in-out forwards;
-      animation-delay: 1s;
-    }
+@keyframes flyAway {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    /* Moves the bird 1000 pixels to the right and fades it out */
+    transform: translateX(1000px);
+    opacity: 0;
+  }
+}
   </style>
 </head>
 
