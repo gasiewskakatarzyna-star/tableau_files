@@ -4,7 +4,27 @@
              body {
                  margin: 0px;
              }
-</style>
+
+#bird {
+  /* Set the initial state */
+  opacity: 1;
+  
+  /* name | duration | timing-function | delay | iteration-count | fill-mode */
+  animation: flyAway 2s ease-in 1s forwards;
+}
+
+@keyframes flyAway {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    /* Moves the bird 1000px to the right and fades it out */
+    transform: translateX(1000px);
+    opacity: 0;
+  }
+}
+         </style>
 </head>
 <body>
 <svg width="1000" height="700" viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
