@@ -5,7 +5,29 @@
              body {
                  margin: 0px;
              }
-</style>
+
+#bird {
+    /* Initial state */
+    opacity: 1;
+    
+    /* Animation name, duration, timing, and delay */
+    /* 'forwards' ensures the bird stays invisible/moved after finishing */
+    animation: flyAway 2s ease-in forwards;
+    animation-delay: 1s; 
+  }
+
+  @keyframes flyAway {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      /* Adjust '100vw' or a specific pixel value to clear the screen */
+      transform: translateX(500px); 
+      opacity: 0;
+    }
+  }
+         </style>
 </head>
 <body>
 <svg width="1000" height="700" viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
