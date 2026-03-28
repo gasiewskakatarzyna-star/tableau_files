@@ -4,7 +4,26 @@
              body {
                  margin: 0px;
              }
-</style>
+
+         
+#bird {
+    /* Sets the animation: name, duration, timing, and delay */
+    animation: flyAway 2s ease-in forwards;
+    animation-delay: 1s; /* The 1-second initial pause you requested */
+  }
+
+  @keyframes flyAway {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      /* Moves it 1000px to the right and fades it out */
+      transform: translateX(1000px);
+      opacity: 0;
+    }
+  }
+         </style>
 </head>
 <body>
 
