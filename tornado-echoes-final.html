@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tornado Echoes</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #040810;
+        }
+
+        .viz-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Sky stays pinned to the viewport while the viz scrolls over it */
+        .lightning-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 10%, #0C152E 0%, #040810 100%);
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .ambient-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90%;
+            /* Stronger, but still fades to nothing at the bottom and sides.
+               --fx moves the strike's origin horizontally (set per flash in JS). */
+            background: radial-gradient(ellipse 80% 100% at var(--fx, 50%) 0%,
+                rgba(185, 210, 245, 0.50) 0%,
+                rgba(175, 205, 242, 0.28) 35%,
+                rgba(170, 200, 240, 0.11) 65%,
+                rgba(170, 200, 240, 0) 100%);
+            mix-blend-mode: screen;
+            opacity: 0;
+        }
+
+        .cloud-top {
+            position: absolute;
+            top: -20px;
+            left: -10%;
+            width: 120%;
+            height: 45%;
+            background-image:
+                radial-gradient(ellipse 500px 150px at 30% 20%, #050812 0%, transparent 100%),
+                radial-gradient(ellipse 700px 200px at 70% 30%, #04060E 0%, transparent 100%),
+                radial-gradient(ellipse 600px 180px at 50% 10%, #060A17 0%, transparent 100%);
+            mix-blend-mode: screen;
+            filter: brightness(1);
+            -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
+        }
+
+        /* SVG viewBox is 1100 x 1650, so height = 1.5 x width.
+           Width is the window width; height is derived from it. */
+        .svg-layer {
+            position: relative;
+            width: 100vw;
+            height: calc(100vw * 1.5);
+            z-index: 2;
+        }
+
+        .svg-layer object {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="viz-wrapper">
+        <!-- Background Lightning Storm -->
+        <div class="lightning-sky" id="skyBg">
+            <div class="ambient-flash" id="ambientFlash"></div>
+            <div class="cloud-top" id="cloudTop"></div>
+        </div>
+
+        <!-- Foreground SVG (keep circles_outline.svg in the same folder as this file) -->
+        <div class="svg-layer" id="svgLayer">
+            <object type="image/svg+xml" data="circles_outline.svg" id="vizObj"></object>
+        </div>
+    </div>
+
+    <script>
+        const ambientFlash = document.getElementById('ambientFlash');
+        const cloudTop = document.getElementById('cloudTop');
+
+        const rand = (min, max) => min + Math.random() * (max - min);
+
+        // One flicker: instant strike, short hold, then a fade whose length varies
+        function flicker(intensity, holdMs, decayMs) {
+            ambientFlash.style.transition = 'opacity 20ms linear';
+            cloudTop.style.transition = 'filter 20ms linear';
+            ambientFlash.style.opacity = intensity;
+            cloudTop.style.filter =
+                `brightness(${1 + 2.8 * intensity}) drop-shadow(0 15px 40px rgba(150, 190, 235, ${0.7 * intensity}))`;
+
+            setTimeout(() => {
+                ambientFlash.style.transition = `opacity ${decayMs}ms ease-out`;
+                cloudTop.style.transition = `filter ${decayMs}ms ease-out`;
+                ambientFlash.style.opacity = 0;
+                cloudTop.style.filter = 'brightness(1)';
+            }, holdMs);
+        }
+
+        // One lightning strike = a random burst of uneven flickers
+        function triggerStrike() {
+            // Each strike hits at a slightly different spot in the sky
+            ambientFlash.style.setProperty('--fx', rand(20, 80) + '%');
+
+            const big = Math.random() < 0.15;                 // occasional heavy strike
+            const flickers = big ? Math.floor(rand(3, 6)) : Math.floor(rand(1, 5)); // 1-4 (3-5 if big)
+            const peak = big ? rand(0.85, 1) : rand(0.45, 0.9);
+
+            let t = 0;
+            for (let i = 0; i < flickers; i++) {
+                const last = i === flickers - 1;
+                // Flickers vary in strength; the first is often strongest
+                const intensity = Math.min(1, peak * (i === 0 ? rand(0.8, 1) : rand(0.3, 1)));
+                const hold = rand(18, 75);
+                // The last flicker lingers and fades slowly, the others cut off quickly
+                const decay = last ? rand(350, big ? 1400 : 800) : rand(50, 220);
+
+                setTimeout(() => flicker(intensity, hold, decay), t);
+
+                // Uneven stutter: sometimes a tight double-tap, sometimes a pause
+                t += hold + rand(30, 260);
+            }
+        }
+
+        // Irregular rhythm: quick follow-ups, normal gaps, and long quiet spells
+        function nextGap() {
+            const r = Math.random();
+            if (r < 0.25) return rand(500, 1500);    // rapid follow-up
+            if (r < 0.80) return rand(1800, 5500);   // typical gap
+            return rand(6500, 12000);                // long lull
+        }
+
+        function loopStorm() {
+            setTimeout(() => {
+                triggerStrike();
+                loopStorm();
+            }, nextGap());
+        }
+
+        // Skip the lightning for viewers who ask their device to reduce motion
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setTimeout(loopStorm, 1000);
+        }
+    </script>
+</body>
+</html>
